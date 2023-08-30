@@ -1,9 +1,10 @@
-use narrow_macro::{Projection};
+use occlusion::{Projections};
 
-#[derive(Projection)]
+#[derive(Projections)]
 struct Person {
-    #[occlude]
+    #[occlude(Aak)]
     name: String,
     age: u32,
+    #[occlude(Aak, Bek)]
     sex: Option<bool>,
 }
