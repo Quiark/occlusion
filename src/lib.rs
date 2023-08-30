@@ -40,12 +40,21 @@ fn gen_one_projection(name: &Ident, variant: &Ident, all: &Fields, occluded: &Ve
 
     let field_ids: Vec<&Ident> = sel_fields.iter().map(|field| field.ident.as_ref().unwrap()).collect();
     let field_types: Vec<&syn::Type> = sel_fields.iter().map(|field| &field.ty).collect();
+    /*
+    let fields: Vec<_> = field_ids.iter()
+        .zip(field_types.iter())
+        .map(|field_id| {
+        quote! {
+            pub #field_id: item.#field_id
+        }
+    }).collect();
+    */
 
 
     let generated = quote! {
-        #[derive(Debug, Clone, serde::Serialize, serde::Deserialize, ts_rs::TS, utoipa::ToSchema)]
+        #[derive(Debug, Clone, serde::Serialize, serde::Deserialize, ts_rs::TS, utoipa::ToSchema, sqlxinsert::SqliteUpdate)]
         pub struct #proj_name {
-            #(#field_ids: #field_types),*
+            #(pub #field_ids: #field_types),*
         }
 
         impl core::convert::From<#name> for #proj_name {
