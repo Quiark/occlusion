@@ -40,16 +40,6 @@ fn gen_one_projection(name: &Ident, variant: &Ident, all: &Fields, occluded: &Ve
 
     let field_ids: Vec<&Ident> = sel_fields.iter().map(|field| field.ident.as_ref().unwrap()).collect();
     let field_types: Vec<&syn::Type> = sel_fields.iter().map(|field| &field.ty).collect();
-    /*
-    let fields: Vec<_> = field_ids.iter()
-        .zip(field_types.iter())
-        .map(|field_id| {
-        quote! {
-            pub #field_id: item.#field_id
-        }
-    }).collect();
-    */
-
 
     let generated = quote! {
         #[derive(Debug, Clone, serde::Serialize, serde::Deserialize, ts_rs::TS, utoipa::ToSchema, sqlxinsert::SqliteUpdate)]
@@ -63,7 +53,16 @@ fn gen_one_projection(name: &Ident, variant: &Ident, all: &Fields, occluded: &Ve
                     #(#field_ids: item.#field_ids),*
                 }
             }
+        }
 
+        impl core::convert::From<#proj_name> for #name {
+            fn from(item: #proj_name) -> #name {
+                #name {
+                    #(#field_ids: item.#field_ids),*
+                    ,
+                    ..Default::default()
+                }
+            }
         }
     };
 

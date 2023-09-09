@@ -1,6 +1,6 @@
 use occlusion::{Projections};
 
-#[derive(Projections)]
+#[derive(Projections, Default)]
 struct Person {
     #[occlude(Aak)]
     name: String,
