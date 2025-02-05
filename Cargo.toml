@@ -1,6 +1,6 @@
 [package]
 name = "occlusion"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 
 [lib]
@@ -13,5 +13,3 @@ syn = "2.0.29"
 
 [dev-dependencies]
 serde = { version = "1.0.188", features = ["derive"] }
-ts-rs = "7.0.0"
-utoipa = "3.5.0"

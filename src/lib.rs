@@ -42,7 +42,7 @@ fn gen_one_projection(name: &Ident, variant: &Ident, all: &Fields, occluded: &Ve
     let field_types: Vec<&syn::Type> = sel_fields.iter().map(|field| &field.ty).collect();
 
     let generated = quote! {
-        #[derive(Debug, Clone, serde::Serialize, serde::Deserialize, ts_rs::TS, utoipa::ToSchema, sqlxinsert::SqliteUpdate)]
+        #[derive(Debug, Clone, serde::Serialize, serde::Deserialize, ts_rs::TS, utoipa::ToSchema, sqlxinsert::SqliteUpdate, sqlxinsert::SqliteInsert)]
         pub struct #proj_name {
             #(pub #field_ids: #field_types),*
         }
